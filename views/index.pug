@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to  Subhash Nethra Vishnumolakala #{title}
+  button(type="button", class="btn btn-secondary", onclick="update()") Press Me
+  div(id="target") Display
+  a(href = '/fan') Monkey Page link
+  |
+  script. 
+    let client_count = 0;
+    function update() {
+      client_count = client_count + 1;
+      document.getElementById("target").innerHTML = `Value now ${client_count}`  ;
+      }
