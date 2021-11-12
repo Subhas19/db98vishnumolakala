@@ -2,33 +2,19 @@ extends layout
 
 block content
   h1= title
-  p search results for cats  
-  p 
+  
+  p Search results cats  
+  p
+  - let items = results 
     div(class="container-fluid")
         div(class="row")
-            -
-                let cats   = [
-                    {
-                        "name": "sanjay",
-                        "color": "red" ,
-                        "weight": 5
-                    },
-                    {
-                        "name": "shiva",
-                        "color": "Orange" ,
-                        "weight": 35
-                    },
-                    {
-                        "name": "harsha",
-                        "color": "yellow" ,
-                        "weight": 45
-                    },                   
-                ]
-            each v,index in cats   
-                div(class="col-sm-2", onclick=`buy(${index})`) #{v.name}
-                div(class="col-sm-2", onclick=`buy(${index})`) #{v.color}
-                div(class="col-sm-2", onclick=`buy(${index})`) #{v.weight}
-    script. 
-        function buy(index) {
-        alert(`Purchased item ${index + 1}` )
+            each v,index in items
+                div(class="col-sm-2" onclick=`buy(${index})`) #{v.name}
+                div(class="col-sm-2" onclick=`buy(${index})`) #{v.color}
+                div(class="col-sm-2" onclick=`buy(${index})`) #{v.weight}
+
+  script.                
+        function buy(intemNo)
+        {
+              alert(`you purchased Item ${intemNo+1}`)
         }

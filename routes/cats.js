@@ -1,9 +1,6 @@
 var express = require('express');
+const cats_controlers= require('../controllers/cats');
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('cats', { title: 'search results for Cats' });
-});
-
+router.get('/', cats_controlers.cats_view_all_Page );
 module.exports = router;
