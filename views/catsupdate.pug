@@ -1,0 +1,48 @@
+extends layout 
+ 
+block content 
+  h1= title 
+  if (toShow == null) 
+    h2 No instance to update 
+  else 
+    - let catid = toShow._id 
+    - let name = toShow.name 
+    - let color = toShow.color 
+    - let weight = toShow.weight 
+    
+    div.row(class='mb-2') 
+      div.mr-1 ID is 
+      div #{catid} 
+    - let actionid = "/resource/cats/" + catsid 
+    form(id='catsForm', action= actionid, method="PUT") 
+      div.form-group 
+          label.catsAttr(for='name') cats name <br>
+          input#name(type='text', class="form-control col-xs-2", name='name', value= name ) 
+          <br>
+      div.form-group 
+          label.catsAttr(for='color') cats color 
+          input#color(type='text', class="form-control col-xs-2", name='color', value= color ) 
+          <br>
+      div.form-group 
+          label.catsAttr(for='weight') cats weight 
+          input#weight(type='number',class="form-control col-xs-2", name='weight ', value= weight ) 
+          <br>
+      input(class="btn btn-success" type="submit") 
+  
+    script. 
+      document.forms['catsForm'].addEventListener('submit', (event) => { 
+        event.preventDefault(); 
+        // TODO do something here to show user that form is being submitted 
+        fetch(event.target.action, { 
+          method: 'PUT', 
+          body: new URLSearchParams(new FormData(event.target)) // event.target is the form 
+        }).then((resp) => { 
+          return resp.json(); // or resp.text() or whatever the server sends 
+        }).then((body) => { 
+          alert("Update succeded") 
+          // TODO handle body 
+        }).catch((error) => { 
+          // TODO handle error 
+          alert("Update failed " + error ) 
+        }); 
+      });

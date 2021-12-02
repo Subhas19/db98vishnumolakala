@@ -1,20 +1,27 @@
-extends layout
-
 block content
+  -let destnations4 = `dispatch(\"/cats/create\")`
+ 
+  button.btn( class="btn-primary m-1", onclick= destinations4) Create 
+  
   h1= title
   
-  p Search results cats  
-  p
-  - let items = results 
-    div(class="container-fluid")
-        div(class="row")
-            each v,index in items
-                div(class="col-sm-2" onclick=`buy(${index})`) #{v.name}
-                div(class="col-sm-2" onclick=`buy(${index})`) #{v.color}
-                div(class="col-sm-2" onclick=`buy(${index})`) #{v.weight}
-
-  script.                
-        function buy(intemNo)
-        {
-              alert(`you purchased Item ${intemNo+1}`)
-        }
+  div(class="container-fluid")
+        div(class="row m-1")
+            -
+                let cats = results
+            each m, index in cats 
+                
+                -let destination1 = `dispatch(\"/cats/update?id=${m._id}\")`
+                -let destinations2 = `dispatch(\"/cats/detail?id=${m._id}\")`
+                -let destinations3 = `dispatch(\"/cats/delete?id=${m._id}\")`
+                div(class="col-sm-2" onclick=`buy(${index})`) #{m.name} #{m.color} #{m.weight}
+                 button.btn( class="btn-success m-1", onclick= destinations2) Detail
+                 button.btn( class="btn-primary m-1", onclick= destination1) Update
+                 button.btn( class="btn-danger m-1", onclick= destinations3) Delete
+            script.
+                function buy(itemNo){
+                    alert(`You purchased Item ${itemNo+1}`)
+                } 
+                function dispatch(path){
+                    window.location.href=path
+                }

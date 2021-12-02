@@ -5,4 +5,10 @@ body {
 
 a {
   color: #00B7FF;
+
 }
+.catsAttr { 
+  background-color: aquamarine; 
+  width: 120px; 
+} 
+ 

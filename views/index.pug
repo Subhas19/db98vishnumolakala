@@ -2,14 +2,27 @@ extends layout
 
 block content
   h1= title
-  p Welcome to  Subhash Nethra Vishnumolakala #{title}
-  button(type="button", class="btn btn-secondary", onclick="update()") Press Me
-  div(id="target") Display
-  a(href = '/fan') cat Page link
-  |
-  script. 
-    let client_count = 0;
-    function update() {
-      client_count = client_count + 1;
-      document.getElementById("target").innerHTML = `Value now ${client_count}`  ;
-      }
+  p Welcome to the page #{title}
+  p Subhash Nethra 
+  if (!user)
+    a(href="/login") Login
+    br
+    a(href="/register") Register
+  if (user)
+    p You are currently logged in as #{user.username}
+    a(href="/cats") Take me to cats
+    br
+    a(href="/logout") Logout
+  br
+  button(type="button", class="btn btn-secondary" onclick='update()') press me 
+  br
+  br
+  div(id='target') Display
+  br
+  a(href='/cats') Search cats page
+  script.
+    var client_count = 0;
+    function update(){
+      client_count++
+      document.getElementById("target").innerHTML = `Value now ${client_count}`
+    }

@@ -8,6 +8,30 @@ mongoose = require('mongoose');
 mongoose.connect(connectionString, {useNewUrlParser: true, useUnifiedTopology: true});
 //Get the default connection
 var db = mongoose.connection;
+var passport = require('passport');
+
+passport.use(new LocalStrategy(function(username, password, done) {
+  Account.findOne({ username: username }, function (err, user) {
+    if (err) { 
+      return done(err); 
+    }
+    if (!user) {
+      return done(null, false, { 
+        message: 'Incorrect username.' 
+      });
+    }
+    if (!user.validPassword(password)) {
+        return done(null, false, { message: 'Incorrect password.' });
+    }
+    return done(null, user);
+  });
+}));
+
+
+
+
+
+
 
 //Bind connection to error event
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
@@ -26,6 +50,34 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+
+app.use(require('express-session')({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false
+ }));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+app.use('/gas', gasRouter);
+app.use('/addmods', addmodsRouter);
+app.use('/selector', selectorRouter);
+app.use('/', resourceRouter);
+
+// passport config
+// Use the existing connection
+// The Account model
+var Account =require('./models/account');
+passport.use(new LocalStrategy(Account.authenticate()));
+passport.serializeUser(Account.serializeUser());
+passport.deserializeUser(Account.deserializeUser());
+
+
+
+
 
 app.use(logger('dev'));
 app.use(express.json());
